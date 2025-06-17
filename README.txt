@@ -1,0 +1,1 @@
+This is the public folder for assets like logos, images, and sounds.
