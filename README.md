@@ -1,1 +1,0 @@
-# gocosmic-app
