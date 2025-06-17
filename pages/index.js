@@ -10,7 +10,7 @@ export default function Home() {
       alignItems: 'center',
       justifyContent: 'center'
     }}>
-      <h1>Welcome to GO COSMIC</h1>
+      <h1>Welcome to GO COSMIC 🚀</h1>
       <p>The signal is calling you.</p>
       <a href="/scan" style={{ marginTop: '20px', color: '#00ffff' }}>
         Open the Portal →
