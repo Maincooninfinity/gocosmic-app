@@ -1,20 +1,44 @@
+import { useEffect, useState } from 'react'
+import { createClient } from '@supabase/supabase-js'
 
-import { useRouter } from 'next/router';
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_KEY
+)
 
-export default function Result() {
-  const router = useRouter();
-  const { zodiac, mood } = router.query;
+export default function ResultPage() {
+  const [status, setStatus] = useState('Sending...')
+
+  useEffect(() => {
+    const insertData = async () => {
+      const { data, error } = await supabase
+        .from('symbols')
+        .insert([
+          {
+            user_ref: 'test-user-123',  // Replace with real auth later
+            planet: 'Mars',
+            symbol: 'Silent Falcon',
+            code: 'MARS-04-FALC',
+            message: 'Move with clarity and fire today.'
+          }
+        ])
+
+      if (error) {
+        console.error('Insert failed:', error)
+        setStatus('❌ Failed to save')
+      } else {
+        console.log('Inserted:', data)
+        setStatus('✅ Saved to Supabase!')
+      }
+    }
+
+    insertData()
+  }, [])
 
   return (
-    <div style={{ backgroundColor: 'black', color: 'white', minHeight: '100vh', padding: '2rem' }}>
-      <h2>Your Transmission</h2>
-      <p><strong>Zodiac:</strong> {zodiac}</p>
-      <p><strong>Mood:</strong> {mood}</p>
-      <p><strong>Planet:</strong> Neptune</p>
-      <p><strong>Symbol:</strong> Silent Falcon</p>
-      <p><strong>Code:</strong> NEP-07-FALCON</p>
-      <p><strong>Message:</strong> You were not made for noise. Move in silence. Speak through your presence.</p>
-      <p><strong>Style Guidance:</strong> Neptune Cloak Hoodie – for those who glide unseen.</p>
+    <div style={{ padding: '2rem', color: 'white', background: 'black', minHeight: '100vh' }}>
+      <h1>Signal Sent</h1>
+      <p>{status}</p>
     </div>
-  );
+  )
 }
